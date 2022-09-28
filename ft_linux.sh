@@ -11,21 +11,42 @@ fi
 echo -e "${GREEN}Checking kernel version....${OFF}"
 uname -r
 sleep 2
+
 echo -e "${GREEN}Checking content of /usr/src ...${OFF}"
 ls /usr/src
 sleep 2
+
 echo -e "${GREEN}Checking partitions ...${OFF}"
 fdisk -l
 sleep 2
+
+echo -e "${GREEN}Checking module loader ...${OFF}"
+
+if [[ $(pgrep -c udevd) -eq 0 ]]; then
+	    echo -e "No udev"
+    else
+	    echo -e "udev is running"
+fi
+sleep 2
+
 echo -e "${GREEN}Checking kernel name, should contain your student login ...${OFF}"
 uname -a
 sleep 2
+
 echo -e "${GREEN}Cheching hostname...${OFF}"
 echo $HOSTNAME
 sleep 2
+
 echo -e "${GREEN}Checking which architecture you are running ...${OFF}"
 getconf LONG_BIT
 sleep 2
+
+echo -e "${GREEN}Checking central management software ...${OFF}"
+/etc/init.d/sshd status
+systemctl status sshd
+service sshd status
+sleep 2
+
 echo -e "${GREEN}Checking your kernel binary in /boot ...${OFF}"
 ls /boot/vmlinuz*
 
